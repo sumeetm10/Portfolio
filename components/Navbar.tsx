@@ -2,10 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navLinks, siteConfig } from "@/lib/data";
 import { Menu, X } from "lucide-react";
 
+// Routes that have their own header — don't render the global Navbar there.
+const STANDALONE_ROUTES = ["/resume"];
+
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -15,6 +20,10 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (STANDALONE_ROUTES.some((r) => pathname?.startsWith(r))) {
+    return null;
+  }
 
   const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (!href.startsWith("#")) return;

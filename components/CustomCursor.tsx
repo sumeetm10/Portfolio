@@ -1,22 +1,35 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 
+// Routes that should keep the native cursor (e.g. printable pages).
+const NATIVE_CURSOR_ROUTES = ["/resume"];
+
 export default function CustomCursor() {
+  const pathname = usePathname();
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
 
+  const skip = NATIVE_CURSOR_ROUTES.some((r) => pathname?.startsWith(r));
+
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (skip) {
+      document.body.classList.remove("has-custom-cursor");
+      setEnabled(false);
+      return;
+    }
     const fineHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (!fineHover) {
       document.body.classList.remove("has-custom-cursor");
       return;
     }
+    document.body.classList.add("has-custom-cursor");
     setEnabled(true);
-  }, []);
+  }, [skip]);
 
   useEffect(() => {
     if (!enabled) return;
