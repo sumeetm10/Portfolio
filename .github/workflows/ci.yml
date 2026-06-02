@@ -57,7 +57,7 @@ jobs:
       # 1. Checkout the code
       # ---------------------------------------------------------------------
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # ---------------------------------------------------------------------
       # 2. Install Node.js
