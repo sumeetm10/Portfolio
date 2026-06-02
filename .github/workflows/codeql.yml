@@ -1,0 +1,71 @@
+# =============================================================================
+# CodeQL — GitHub's free static security scanner
+# =============================================================================
+# Scans the codebase for security vulnerabilities (SQL injection, XSS,
+# insecure crypto, hardcoded secrets, etc.) using semantic code analysis.
+#
+# Findings appear under the repo's "Security" tab. Critical issues get an
+# email to repo admins.
+#
+# Why bother for a portfolio?
+#   • Free, runs in 2-3 minutes
+#   • Catches things ESLint and `npm audit` miss (CodeQL understands code
+#     flow, not just patterns)
+#   • Looks good to employers — "I run security scans on my own code"
+# =============================================================================
+
+name: CodeQL
+
+on:
+  # Scan on every push to main
+  push:
+    branches: [main]
+
+  # And every PR — so vulnerabilities get caught BEFORE merge
+  pull_request:
+    branches: [main]
+
+  # Weekly scheduled scan catches vulnerabilities in dependencies that
+  # were safe when committed but became dangerous when a new CVE dropped
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday 06:00 UTC
+
+concurrency:
+  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# CodeQL needs to write security-events to the Security tab
+permissions:
+  security-events: write
+  contents: read
+  actions: read
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # TypeScript covers both .ts and .tsx; "javascript-typescript" is
+        # the CodeQL language identifier that handles both.
+        language: ["javascript-typescript"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # "security-extended" includes more rules than the default
+          # without being as noisy as "security-and-quality"
+          queries: security-extended
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

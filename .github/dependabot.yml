@@ -1,0 +1,67 @@
+# =============================================================================
+# Dependabot — automated dependency updates
+# =============================================================================
+# GitHub will open PRs every Monday morning when there are new versions of
+# the packages in package.json or the GitHub Actions used in workflows.
+#
+# When a PR opens, your CI workflow runs against it. If lint + typecheck +
+# build all pass, it's safe to merge. If any fails, you know the update
+# isn't compatible without you having to discover it later.
+#
+# Why this matters for a portfolio:
+#   • Security patches for transitive deps land within ~1 week without you
+#     having to look
+#   • Next.js / React / Tailwind updates arrive as reviewable PRs, not as
+#     a 6-month-stale `npm outdated` panic
+# =============================================================================
+
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # 1. npm dependencies (the stuff in package.json)
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Asia/Kathmandu"
+
+    # Limit open PRs so your inbox doesn't drown when a major update
+    # cascades into dozens of transitive bumps.
+    open-pull-requests-limit: 5
+
+    # Group related updates into a single PR — way less PR noise.
+    groups:
+      # All non-major updates batched together — usually all safe to merge
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+      # Major updates stay separate so you review each one consciously
+      # (since they often have breaking changes)
+      major:
+        update-types: ["major"]
+
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # ---------------------------------------------------------------------------
+  # 2. GitHub Actions themselves (the `uses: actions/checkout@v4` lines)
+  #
+  # Easy to forget that workflows have dependencies too. Pinning to old
+  # action versions is a common security gap.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    labels:
+      - "ci"
+    commit-message:
+      prefix: "ci"

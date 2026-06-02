@@ -1,0 +1,114 @@
+# =============================================================================
+# CI — Continuous Integration
+# =============================================================================
+# Runs on every push to main and every pull request targeting main.
+# Three checks: lint → typecheck → build. If any fails, the PR is blocked
+# from merging (once branch protection is enabled — see docs/CI-CD.md).
+#
+# Why these three specifically?
+#   • lint     — catches code-style and common-bug patterns early
+#   • typecheck — catches type errors that ESLint can't see
+#   • build    — proves the app actually compiles for production
+#                (this is the same command Vercel runs to deploy)
+#
+# We run them as three SEPARATE steps (not just one `next build`) so when
+# something breaks you immediately see WHICH check failed without scrolling
+# through 200 lines of build output.
+# =============================================================================
+
+name: CI
+
+on:
+  # Run on direct pushes to main (so even commits not made via PR get checked)
+  push:
+    branches: [main]
+
+  # Run on every PR targeting main, including draft PRs
+  pull_request:
+    branches: [main]
+
+  # Allow manual trigger from the GitHub Actions tab — useful for re-running
+  # after a flaky failure or to verify a config change
+  workflow_dispatch:
+
+# Cancel any in-progress runs for the same branch/PR when a new commit lands.
+# Saves CI minutes and gets faster feedback on the latest code.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Minimum permissions principle: this workflow only reads code, it never
+# writes back to the repo. Locking permissions tight is a security best
+# practice — if a malicious dependency runs during CI, it can't push.
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, typecheck, build
+    runs-on: ubuntu-latest
+
+    # 10-minute cap. A normal CI run takes ~2 minutes; this prevents a
+    # stuck install or infinite loop from burning the full 6-hour default.
+    timeout-minutes: 10
+
+    steps:
+      # ---------------------------------------------------------------------
+      # 1. Checkout the code
+      # ---------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------------------------------------------------------------------
+      # 2. Install Node.js
+      #
+      # `cache: 'npm'` automatically caches ~/.npm based on the hash of
+      # package-lock.json. First run on a branch: ~30s. Subsequent runs
+      # with unchanged deps: ~3s. Massive speedup for free.
+      # ---------------------------------------------------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # ---------------------------------------------------------------------
+      # 3. Install dependencies (reproducibly)
+      #
+      # `npm ci` (not `npm install`):
+      #   • Installs EXACTLY what's in package-lock.json
+      #   • Fails if lockfile is out of sync with package.json
+      #   • Doesn't modify lockfile (safer for CI)
+      #   • Faster — skips a bunch of resolution work
+      # ---------------------------------------------------------------------
+      - name: Install dependencies
+        run: npm ci
+
+      # ---------------------------------------------------------------------
+      # 4. Lint — code style and common-bug patterns
+      # ---------------------------------------------------------------------
+      - name: Lint
+        run: npm run lint
+
+      # ---------------------------------------------------------------------
+      # 5. Typecheck — TypeScript type errors
+      #
+      # `next build` also does this, but running it separately means we
+      # get a clear ❌ on this step instead of buried inside the build log.
+      # ---------------------------------------------------------------------
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # ---------------------------------------------------------------------
+      # 6. Build — proves the production build succeeds
+      #
+      # This is the same command Vercel runs to deploy. If this fails here,
+      # the Vercel deploy would also fail. Running it in CI lets us catch
+      # the failure faster (Vercel queues; GitHub Actions starts immediately)
+      # and lets us require it as a status check before merge.
+      # ---------------------------------------------------------------------
+      - name: Build
+        run: npm run build
+        env:
+          # Skip Next.js telemetry pings from CI runs
+          NEXT_TELEMETRY_DISABLED: "1"
