@@ -7,21 +7,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeading from "./SectionHeading";
 import { skillGroups } from "@/lib/data";
 
-const marqueeStack = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "NestJS",
-  "Node.js",
-  "PostgreSQL",
-  "Tailwind CSS",
-  "Docker",
-  "Kubernetes",
-  "Rust",
-  "Prisma",
-  "WebSockets",
-  "Git",
-  "Linux",
+const marqueeRow1 = [
+  "Next.js", "React", "TypeScript", "NestJS", "Node.js", "PostgreSQL",
+  "Tailwind CSS", "Docker", "Prisma", "WebSockets",
+];
+const marqueeRow2 = [
+  "Rust", "Kubernetes", "Git", "Linux", "REST APIs", "GSAP",
+  "Vercel", "CI/CD", "System Design", "HTML5",
 ];
 
 export default function Skills() {
@@ -44,7 +36,7 @@ export default function Skills() {
 
       gsap.from(".skill-pill", {
         opacity: 0,
-        scale: 0.8,
+        scale: 0.85,
         duration: 0.5,
         stagger: 0.02,
         ease: "back.out(1.7)",
@@ -93,20 +85,39 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* Marquee */}
-      <div className="relative border-y border-line py-8 overflow-hidden">
-        <div className="marquee-track gap-12 whitespace-nowrap">
-          {[...marqueeStack, ...marqueeStack].map((tech, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-12 text-3xl md:text-5xl font-display font-medium text-ink-subtle hover:text-accent transition-colors"
-            >
-              {tech}
-              <span className="text-accent">✦</span>
-            </span>
-          ))}
-        </div>
+      {/* Dual marquee — row 1 left, row 2 right */}
+      <div className="relative border-y border-line py-6 overflow-hidden space-y-2">
+        {/* Fade masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-bg to-transparent z-10" />
+
+        <Marquee items={marqueeRow1} direction="left" />
+        <Marquee items={marqueeRow2} direction="right" />
       </div>
     </section>
+  );
+}
+
+function Marquee({
+  items,
+  direction,
+}: {
+  items: string[];
+  direction: "left" | "right";
+}) {
+  // Double the items for seamless loop
+  const doubled = [...items, ...items];
+  return (
+    <div className={`marquee-track gap-10 whitespace-nowrap ${direction === "right" ? "reverse" : ""}`}>
+      {doubled.map((tech, i) => (
+        <span
+          key={i}
+          className="inline-flex items-center gap-10 text-3xl md:text-5xl font-display font-medium text-ink-subtle hover:text-accent transition-colors cursor-default"
+        >
+          {tech}
+          <span className="text-accent">✦</span>
+        </span>
+      ))}
+    </div>
   );
 }

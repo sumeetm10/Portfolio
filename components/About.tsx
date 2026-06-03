@@ -8,6 +8,17 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeading from "./SectionHeading";
 import { about, siteConfig } from "@/lib/data";
 
+/**
+ * Parses a stat value like "8+", "10+", "3+", "∞" into:
+ *   { number: 8 | null, suffix: "+" | "" }
+ * Returns { number: null, suffix: original } if it's not numeric (e.g. "∞").
+ */
+function parseStat(value: string): { number: number | null; suffix: string } {
+  const m = value.match(/^(\d+)(.*)$/);
+  if (!m) return { number: null, suffix: value };
+  return { number: parseInt(m[1], 10), suffix: m[2] };
+}
+
 export default function About() {
   const ref = useRef<HTMLElement>(null);
 
@@ -39,9 +50,29 @@ export default function About() {
         },
       });
 
+      // Animate counters
+      gsap.utils.toArray<HTMLElement>("[data-counter]").forEach((el) => {
+        const target = parseFloat(el.dataset.target || "0");
+        const suffix = el.dataset.suffix || "";
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: target,
+          duration: 1.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+          onUpdate: () => {
+            el.textContent = `${Math.round(obj.val)}${suffix}`;
+          },
+        });
+      });
+
       gsap.from(".about-image", {
         opacity: 0,
-        scale: 0.9,
+        scale: 0.92,
         duration: 1.2,
         ease: "expo.out",
         scrollTrigger: {
@@ -77,16 +108,30 @@ export default function About() {
           ))}
 
           <div className="about-stats grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 mt-6 border-t border-line">
-            {about.stats.map((s) => (
-              <div key={s.label} className="about-stat">
-                <div className="font-display text-3xl md:text-4xl font-medium text-ink">
-                  {s.value}
+            {about.stats.map((s) => {
+              const { number, suffix } = parseStat(s.value);
+              return (
+                <div key={s.label} className="about-stat">
+                  {number !== null ? (
+                    <div
+                      className="font-display text-3xl md:text-4xl font-medium text-ink"
+                      data-counter
+                      data-target={number}
+                      data-suffix={suffix}
+                    >
+                      0{suffix}
+                    </div>
+                  ) : (
+                    <div className="font-display text-3xl md:text-4xl font-medium text-ink">
+                      {s.value}
+                    </div>
+                  )}
+                  <div className="text-xs font-mono uppercase tracking-widest text-ink-subtle mt-2">
+                    {s.label}
+                  </div>
                 </div>
-                <div className="text-xs font-mono uppercase tracking-widest text-ink-subtle mt-2">
-                  {s.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
