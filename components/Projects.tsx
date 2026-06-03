@@ -255,19 +255,31 @@ function ProjectCard({
 
 function ProjectVisual({ project }: { project: (typeof projects)[number] }) {
   // Stylized visual placeholder — gradient + initials/name + dot grid
+  // + animated hover sheen
   return (
     <div className="relative aspect-[4/3] lg:aspect-[5/6] rounded-2xl overflow-hidden border border-line bg-gradient-to-br from-bg-elevated via-bg-soft to-bg">
       <div className="absolute inset-0 bg-grid opacity-50" />
       <div
-        className="absolute inset-0 opacity-60"
+        className="absolute inset-0 opacity-60 transition-opacity duration-700 group-hover:opacity-90"
         style={{
           background:
             "radial-gradient(circle at 30% 20%, rgba(56,189,248,0.25), transparent 50%), radial-gradient(circle at 70% 80%, rgba(14,165,233,0.2), transparent 50%)",
         }}
       />
 
+      {/* Hover sheen — a diagonal light sweep */}
+      <div
+        className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(115deg, transparent 30%, rgba(56,189,248,0.18) 50%, transparent 70%)",
+          backgroundSize: "200% 100%",
+          animation: "shine 3s ease-in-out infinite",
+        }}
+      />
+
       <div className="absolute inset-0 flex items-center justify-center p-8">
-        <div className="text-center">
+        <div className="text-center transition-transform duration-500 group-hover:scale-105">
           <div className="font-mono text-xs uppercase tracking-widest text-accent mb-3">
             {project.category}
           </div>
@@ -282,14 +294,19 @@ function ProjectVisual({ project }: { project: (typeof projects)[number] }) {
             <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
             {project.year}
           </div>
+
+          {/* View case arrow — slides in on hover */}
+          <div className="mt-5 flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-widest text-accent opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+            View case →
+          </div>
         </div>
       </div>
 
-      {/* Corner accents */}
-      <div className="absolute top-3 left-3 h-3 w-3 border-l border-t border-accent/40" />
-      <div className="absolute top-3 right-3 h-3 w-3 border-r border-t border-accent/40" />
-      <div className="absolute bottom-3 left-3 h-3 w-3 border-l border-b border-accent/40" />
-      <div className="absolute bottom-3 right-3 h-3 w-3 border-r border-b border-accent/40" />
+      {/* Corner accents — brighten on hover */}
+      <div className="absolute top-3 left-3 h-3 w-3 border-l border-t border-accent/40 group-hover:border-accent transition-colors duration-500" />
+      <div className="absolute top-3 right-3 h-3 w-3 border-r border-t border-accent/40 group-hover:border-accent transition-colors duration-500" />
+      <div className="absolute bottom-3 left-3 h-3 w-3 border-l border-b border-accent/40 group-hover:border-accent transition-colors duration-500" />
+      <div className="absolute bottom-3 right-3 h-3 w-3 border-r border-b border-accent/40 group-hover:border-accent transition-colors duration-500" />
     </div>
   );
 }

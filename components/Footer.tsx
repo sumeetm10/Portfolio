@@ -33,16 +33,28 @@ export default function Footer() {
               Sections
             </div>
             <ul className="space-y-2">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    className="text-ink-muted hover:text-accent transition-colors"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
+              {navLinks.map((l) => {
+                const isAnchor = l.href.startsWith("#");
+                return (
+                  <li key={l.href}>
+                    {isAnchor ? (
+                      <a
+                        href={l.href}
+                        className="text-ink-muted hover:text-accent transition-colors"
+                      >
+                        {l.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={l.href}
+                        className="text-ink-muted hover:text-accent transition-colors"
+                      >
+                        {l.label}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
               <li>
                 <Link
                   href="/resume"

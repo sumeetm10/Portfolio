@@ -46,7 +46,7 @@ export default function Contact() {
       <div className="contact-block">
         <div className="contact-eyebrow inline-flex items-center gap-2 mb-8 text-xs font-mono uppercase tracking-widest text-accent">
           <span className="h-px w-8 bg-accent" />
-          06 — Get in Touch
+          08 — Get in Touch
         </div>
 
         <h2 className="font-display font-medium text-display-xl tracking-tighter leading-[0.95]">
