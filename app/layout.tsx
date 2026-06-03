@@ -5,6 +5,8 @@ import { siteConfig, jsonLd } from "@/lib/data";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
+import ScrollProgress from "@/components/ScrollProgress";
+import Terminal from "@/components/Terminal";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -83,9 +85,11 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-bg text-ink antialiased noise has-custom-cursor">
         <SmoothScroll>
+          <ScrollProgress />
           <CustomCursor />
           <Navbar />
           {children}
+          <Terminal />
         </SmoothScroll>
       </body>
     </html>
