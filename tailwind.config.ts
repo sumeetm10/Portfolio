@@ -21,9 +21,9 @@ const config: Config = {
         },
         line: "rgba(255,255,255,0.08)",
         accent: {
-          DEFAULT: "#38bdf8",
-          glow: "#0ea5e9",
-          deep: "#0284c7",
+          DEFAULT: "#ef4444",
+          glow: "#f87171",
+          deep: "#dc2626",
         },
       },
       fontFamily: {
@@ -62,8 +62,8 @@ const config: Config = {
       },
       backgroundImage: {
         "grid-pattern": "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-        "radial-fade": "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.15), transparent 60%)",
-        "accent-gradient": "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%)",
+        "radial-fade": "radial-gradient(circle at 50% 0%, rgba(239,68,68,0.15), transparent 60%)",
+        "accent-gradient": "linear-gradient(135deg, #ef4444 0%, #f87171 50%, #dc2626 100%)",
       },
     },
   },

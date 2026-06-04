@@ -16,7 +16,7 @@ interface Props {
 
 export default function PostLayout({ meta, children }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const { prev, next } = getAdjacentPosts(meta.slug);
+  const { newer, older } = getAdjacentPosts(meta.slug);
 
   useGSAP(
     () => {
@@ -122,34 +122,39 @@ export default function PostLayout({ meta, children }: Props) {
       <footer className="max-w-3xl mx-auto px-6 lg:px-10 mt-20">
         <div className="h-px w-full bg-gradient-to-r from-transparent via-line to-transparent mb-10" />
 
-        {/* Prev / next */}
+        {/*
+          Chronological nav: "Older" = published before this one (visually
+          on the left, since we read older→newer left-to-right). "Newer" =
+          published after, on the right. This avoids the prev/next
+          ambiguity entirely.
+        */}
         <nav className="grid sm:grid-cols-2 gap-4">
-          {prev ? (
+          {older ? (
             <Link
-              href={`/blog/${prev.slug}`}
+              href={`/blog/${older.slug}`}
               className="group p-5 rounded-2xl border border-line bg-bg-soft/30 hover:border-accent/40 transition-colors"
             >
               <div className="text-xs font-mono uppercase tracking-widest text-ink-subtle mb-2 inline-flex items-center gap-2">
-                <ArrowLeft size={12} /> Previous
+                <ArrowLeft size={12} /> Older post
               </div>
               <div className="font-display text-lg leading-snug group-hover:text-accent transition-colors">
-                {prev.title}
+                {older.title}
               </div>
             </Link>
           ) : (
             <span />
           )}
 
-          {next ? (
+          {newer ? (
             <Link
-              href={`/blog/${next.slug}`}
+              href={`/blog/${newer.slug}`}
               className="group p-5 rounded-2xl border border-line bg-bg-soft/30 hover:border-accent/40 transition-colors text-right sm:text-right"
             >
-              <div className="text-xs font-mono uppercase tracking-widest text-ink-subtle mb-2 inline-flex items-center gap-2">
-                Next <ArrowRight size={12} />
+              <div className="text-xs font-mono uppercase tracking-widest text-ink-subtle mb-2 inline-flex items-center gap-2 sm:justify-end">
+                Newer post <ArrowRight size={12} />
               </div>
               <div className="font-display text-lg leading-snug group-hover:text-accent transition-colors">
-                {next.title}
+                {newer.title}
               </div>
             </Link>
           ) : null}
