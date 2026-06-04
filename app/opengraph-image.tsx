@@ -19,7 +19,7 @@ export default async function OG() {
           padding: "80px",
           backgroundColor: "#050507",
           backgroundImage:
-            "radial-gradient(circle at 25% 20%, rgba(56,189,248,0.30), transparent 55%), radial-gradient(circle at 80% 80%, rgba(14,165,233,0.20), transparent 55%)",
+            "radial-gradient(circle at 25% 20%, rgba(239,68,68,0.30), transparent 55%), radial-gradient(circle at 80% 80%, rgba(220,38,38,0.20), transparent 55%)",
           color: "#f5f5f7",
           fontFamily: "system-ui, sans-serif",
         }}
@@ -33,9 +33,9 @@ export default async function OG() {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: "12px",
-              backgroundColor: "rgba(56,189,248,0.12)",
-              border: "1px solid rgba(56,189,248,0.4)",
-              color: "#38bdf8",
+              backgroundColor: "rgba(239,68,68,0.12)",
+              border: "1px solid rgba(239,68,68,0.4)",
+              color: "#ef4444",
               fontSize: "26px",
               fontWeight: 700,
             }}
@@ -56,7 +56,7 @@ export default async function OG() {
           <div
             style={{
               fontSize: "28px",
-              color: "#38bdf8",
+              color: "#ef4444",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               marginBottom: "20px",
@@ -75,7 +75,7 @@ export default async function OG() {
             }}
           >
             <span>Sumeet</span>
-            <span style={{ color: "#38bdf8" }}>Shrestha.</span>
+            <span style={{ color: "#ef4444" }}>Shrestha.</span>
           </div>
           <div
             style={{

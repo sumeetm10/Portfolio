@@ -30,13 +30,13 @@ type Blob = {
 };
 
 const blobs: Blob[] = [
-  { color: "bg-sky-500/30",    top: "8%",  left: "8%",  size: 62, blur: 130, duration: 14, delay: 0.0 },
-  { color: "bg-blue-600/25",   top: "55%", left: "60%", size: 55, blur: 150, duration: 18, delay: 0.6 },
-  { color: "bg-indigo-500/22", top: "65%", left: "10%", size: 50, blur: 120, duration: 16, delay: 1.1 },
-  { color: "bg-cyan-400/20",   top: "20%", left: "55%", size: 60, blur: 140, duration: 20, delay: 0.4 },
-  { color: "bg-fuchsia-500/12", top: "40%", left: "30%", size: 45, blur: 110, duration: 22, delay: 1.8 },
-  { color: "bg-rose-500/15",   top: "78%", left: "35%", size: 48, blur: 130, duration: 24, delay: 0.9 },
-  { color: "bg-violet-500/15", top: "25%", left: "75%", size: 52, blur: 140, duration: 19, delay: 1.4 },
+  { color: "bg-red-500/30",     top: "8%",  left: "8%",  size: 62, blur: 130, duration: 14, delay: 0.0 },
+  { color: "bg-orange-600/25",  top: "55%", left: "60%", size: 55, blur: 150, duration: 18, delay: 0.6 },
+  { color: "bg-amber-500/20",   top: "65%", left: "10%", size: 50, blur: 120, duration: 16, delay: 1.1 },
+  { color: "bg-rose-600/22",    top: "20%", left: "55%", size: 60, blur: 140, duration: 20, delay: 0.4 },
+  { color: "bg-yellow-500/10",  top: "40%", left: "30%", size: 45, blur: 110, duration: 22, delay: 1.8 },
+  { color: "bg-pink-600/15",    top: "78%", left: "35%", size: 48, blur: 130, duration: 24, delay: 0.9 },
+  { color: "bg-purple-700/12",  top: "25%", left: "75%", size: 52, blur: 140, duration: 19, delay: 1.4 },
 ];
 
 export default function FluidBackdrop() {

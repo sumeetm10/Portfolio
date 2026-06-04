@@ -60,6 +60,9 @@ export default function Navbar() {
   const brandTextRef = useRef<HTMLSpanElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const resumeBtnRef = useRef<HTMLAnchorElement>(null);
+  // Guards against the squash-bounce running on initial mount when nothing
+  // has actually scrolled yet.
+  const isFirstStateRun = useRef(true);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -115,6 +118,13 @@ export default function Navbar() {
   //      with their own slightly-delayed back.out / power2 tweens
   // -------------------------------------------------------------------
   useEffect(() => {
+    // On the very first effect run (mount), the inline styles already match
+    // the expanded target — skip the animation to avoid a visible flicker.
+    if (isFirstStateRun.current) {
+      isFirstStateRun.current = false;
+      return;
+    }
+
     const pill = pillRef.current;
     const inner = navInnerRef.current;
     const brandText = brandTextRef.current;
@@ -125,12 +135,14 @@ export default function Navbar() {
     const target = scrolled ? STATES.compact : STATES.expanded;
     const tl = gsap.timeline();
 
-    // 1. Squash — quick anticipation
+    // 1. Squash — quick anticipation. overwrite: "auto" so rapid scrolls
+    //    don't queue conflicting tweens on the same properties.
     tl.to(pill, {
       scaleY: scrolled ? 0.72 : 0.86,
       scaleX: scrolled ? 1.02 : 0.98,
       duration: 0.14,
       ease: "power2.in",
+      overwrite: "auto",
     });
 
     // 2. Bounce into final dimensions
@@ -145,8 +157,9 @@ export default function Navbar() {
         scaleY: 1,
         duration: 0.65,
         ease: scrolled
-          ? "elastic.out(1.15, 0.5)" // bouncier going DOWN to compact
+          ? "elastic.out(1.15, 0.5)"
           : "elastic.out(1, 0.55)",
+        overwrite: "auto",
       },
       ">-0.02"
     );
@@ -158,6 +171,7 @@ export default function Navbar() {
       duration: 0.5,
       ease: "power3.out",
       delay: 0.05,
+      overwrite: "auto",
     });
 
     // Brand "Sumeet" text — fold away when compact
@@ -169,6 +183,7 @@ export default function Navbar() {
         duration: 0.4,
         ease: scrolled ? "power3.in" : "back.out(1.7)",
         delay: scrolled ? 0 : 0.15,
+        overwrite: "auto",
       });
     }
 
@@ -184,6 +199,7 @@ export default function Navbar() {
         duration: scrolled ? 0.35 : 0.5,
         ease: scrolled ? "back.in(1.7)" : "back.out(1.7)",
         delay: scrolled ? 0 : 0.2,
+        overwrite: "auto",
       });
     }
 
@@ -198,6 +214,7 @@ export default function Navbar() {
         duration: 0.4,
         ease: "power3.out",
         delay: 0.1,
+        overwrite: "auto",
       });
     }
   }, [scrolled]);

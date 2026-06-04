@@ -5,8 +5,8 @@
 :root {
   --bg: 5 5 7;
   --ink: 245 245 247;
-  --accent: 56 189 248;
-  --accent-glow: 14 165 233;
+  --accent: 239 68 68;
+  --accent-glow: 248 113 113;
 }
 
 * {
@@ -42,7 +42,7 @@ html.lenis body {
 
 /* Selection */
 ::selection {
-  background: rgba(56, 189, 248, 0.4);
+  background: rgba(239, 68, 68, 0.4);
   color: #f5f5f7;
 }
 
@@ -59,7 +59,7 @@ html.lenis body {
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
+  background: #ef4444;
 }
 
 /* Hide default cursor on devices with custom cursor */
@@ -72,7 +72,7 @@ html.lenis body {
 
 /* Utility — gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #fca5a5 50%, #dc2626 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -81,9 +81,9 @@ html.lenis body {
 /* Utility — accent glow ring */
 .glow-ring {
   box-shadow:
-    0 0 0 1px rgba(56, 189, 248, 0.2),
-    0 0 40px rgba(56, 189, 248, 0.15),
-    0 0 80px rgba(56, 189, 248, 0.05);
+    0 0 0 1px rgba(239, 68, 68, 0.2),
+    0 0 40px rgba(239, 68, 68, 0.15),
+    0 0 80px rgba(239, 68, 68, 0.05);
 }
 
 /* Utility — subtle grid background */

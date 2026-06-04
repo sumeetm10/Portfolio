@@ -64,15 +64,27 @@ export function getPost(slug: string): BlogPostMeta | undefined {
   return posts.find((p) => p.slug === slug);
 }
 
+/**
+ * Returns the chronologically-adjacent posts.
+ *
+ * Posts are stored newest-first, so:
+ *   sorted[idx - 1] = the post that was published AFTER  this one (newer)
+ *   sorted[idx + 1] = the post that was published BEFORE this one (older)
+ *
+ * Returned with explicit `newer` / `older` keys to avoid the
+ * common "prev = previously-published = older" vs "prev = previous-in-list
+ * = newer" ambiguity that bites every blog template.
+ */
 export function getAdjacentPosts(slug: string): {
-  prev: BlogPostMeta | null;
-  next: BlogPostMeta | null;
+  newer: BlogPostMeta | null;
+  older: BlogPostMeta | null;
 } {
   const sorted = getAllPosts();
   const idx = sorted.findIndex((p) => p.slug === slug);
   return {
-    prev: idx > 0 ? sorted[idx - 1] : null,
-    next: idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null,
+    newer: idx > 0 ? sorted[idx - 1] : null,
+    older:
+      idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null,
   };
 }
 

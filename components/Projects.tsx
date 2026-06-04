@@ -263,7 +263,7 @@ function ProjectVisual({ project }: { project: (typeof projects)[number] }) {
         className="absolute inset-0 opacity-60 transition-opacity duration-700 group-hover:opacity-90"
         style={{
           background:
-            "radial-gradient(circle at 30% 20%, rgba(56,189,248,0.25), transparent 50%), radial-gradient(circle at 70% 80%, rgba(14,165,233,0.2), transparent 50%)",
+            "radial-gradient(circle at 30% 20%, rgba(239,68,68,0.25), transparent 50%), radial-gradient(circle at 70% 80%, rgba(248,113,113,0.2), transparent 50%)",
         }}
       />
 
@@ -272,7 +272,7 @@ function ProjectVisual({ project }: { project: (typeof projects)[number] }) {
         className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
         style={{
           background:
-            "linear-gradient(115deg, transparent 30%, rgba(56,189,248,0.18) 50%, transparent 70%)",
+            "linear-gradient(115deg, transparent 30%, rgba(239,68,68,0.18) 50%, transparent 70%)",
           backgroundSize: "200% 100%",
           animation: "shine 3s ease-in-out infinite",
         }}

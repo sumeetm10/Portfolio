@@ -277,8 +277,8 @@ export default function Approach() {
                 id={`approach-card-${i}`}
                 className={`absolute left-1/2 top-1/2 w-[clamp(280px,42vw,520px)] p-6 md:p-9 rounded-2xl border backdrop-blur-md shadow-2xl
                   ${isBefore
-                    ? "bg-rose-950/30 border-rose-500/30 shadow-rose-900/20"
-                    : "bg-sky-950/30 border-sky-500/35 shadow-sky-900/30"}`}
+                    ? "bg-zinc-900/50 border-zinc-700/40 shadow-zinc-950/40"
+                    : "bg-red-950/40 border-red-500/40 shadow-red-900/30"}`}
                 style={{
                   transform: `translate(-50%, -50%) translateY(var(--card-y, ${initialY}vh)) translateX(${pos.x}px) rotate(${pos.rot}deg) scale(var(--card-scale, 0.65))`,
                   opacity: 0.2,
@@ -288,14 +288,14 @@ export default function Approach() {
                 <div className="flex items-center justify-between mb-4">
                   <span
                     className={`font-mono text-[10px] uppercase tracking-[0.25em] ${
-                      isBefore ? "text-rose-400" : "text-sky-400"
+                      isBefore ? "text-zinc-400" : "text-red-400"
                     }`}
                   >
                     {isBefore ? "Without me" : "With me"}
                   </span>
                   <span
                     className={`font-mono text-xs font-medium ${
-                      isBefore ? "text-rose-400" : "text-sky-400"
+                      isBefore ? "text-zinc-400" : "text-red-400"
                     }`}
                   >
                     [{card.num}]
@@ -313,7 +313,7 @@ export default function Approach() {
                 {!isBefore && (
                   <span
                     aria-hidden
-                    className="absolute -top-px -right-px h-6 w-6 border-t-2 border-r-2 border-sky-400 rounded-tr-2xl"
+                    className="absolute -top-px -right-px h-6 w-6 border-t-2 border-r-2 border-red-400 rounded-tr-2xl"
                   />
                 )}
               </article>
