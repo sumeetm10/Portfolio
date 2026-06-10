@@ -53,7 +53,7 @@ export default function Skills() {
     <section ref={ref} id="skills" className="relative py-32 overflow-hidden">
       <div className="px-6 lg:px-10 max-w-7xl mx-auto">
         <SectionHeading
-          eyebrow="02 — Stack"
+          eyebrow="Chapter 02 — The Toolkit"
           title="Tools I reach for."
           description="I prefer to go deep on a few tools rather than know everything shallowly. The stack below is what I ship with daily — plus a few things I'm actively learning."
         />

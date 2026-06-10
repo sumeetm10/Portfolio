@@ -65,7 +65,7 @@ export default function Experience() {
       className="relative py-32 px-6 lg:px-10 max-w-7xl mx-auto"
     >
       <SectionHeading
-        eyebrow="03 — Journey"
+        eyebrow="Chapter 03 — The Road Here"
         title="Where I've been, what I'm building."
         description="A short trail of work, learning, and shipping in production."
       />

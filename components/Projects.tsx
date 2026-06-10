@@ -65,7 +65,7 @@ export default function Projects() {
       className="relative py-32 px-6 lg:px-10 max-w-7xl mx-auto"
     >
       <SectionHeading
-        eyebrow="04 — Selected Work"
+        eyebrow="Chapter 04 — The Work"
         title="Things I've built, broken, and shipped."
         description="A mix of production work, side projects, and learning experiments. Each one taught me something I now use daily."
       />

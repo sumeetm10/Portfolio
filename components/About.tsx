@@ -200,7 +200,7 @@ export default function About() {
       className="relative py-32 px-6 lg:px-10 max-w-7xl mx-auto overflow-hidden"
     >
       <SectionHeading
-        eyebrow="01 — About"
+        eyebrow="Chapter 01 — The Person"
         title={about.heading}
         description="A bit about who I am, how I work, and what I'm building toward."
       />

@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import MagneticButton from "./MagneticButton";
+import EmberField from "./EmberField";
+import { INTRO_DONE_EVENT } from "./CinematicIntro";
 
 /**
  * Splits a string into per-character spans for GSAP staggering.
@@ -35,8 +37,22 @@ export default function Hero() {
     () => {
       gsap.registerPlugin(ScrollTrigger);
 
+      // If the CinematicIntro is about to play (first visit this session),
+      // hold the entrance until its curtain lifts so the user actually
+      // sees the character reveal. Repeat visits play immediately.
+      let introPending = false;
+      try {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        introPending = !reduced && !window.sessionStorage.getItem("ss-intro-seen");
+      } catch {
+        introPending = false;
+      }
+
       // Cinematic entrance — eyebrow → name (char stagger) → role → sub → cta → meta
-      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out" },
+        paused: introPending,
+      });
 
       tl.from(".hero-eyebrow", {
         y: 16,
@@ -103,6 +119,18 @@ export default function Hero() {
           "-=0.4"
         );
 
+      // Release the entrance when the intro's curtain lifts — with a
+      // safety fallback in case the event never arrives.
+      let fallback: ReturnType<typeof setTimeout> | undefined;
+      const release = () => {
+        if (fallback) clearTimeout(fallback);
+        tl.play();
+      };
+      if (introPending) {
+        window.addEventListener(INTRO_DONE_EVENT, release, { once: true });
+        fallback = setTimeout(release, 4500);
+      }
+
       // Aurora drift — slow looping gradient blob
       gsap.to(".aurora-a", {
         x: 60,
@@ -142,6 +170,12 @@ export default function Hero() {
           scrub: 0.5,
         },
       });
+
+      // Non-GSAP side effects need manual cleanup
+      return () => {
+        window.removeEventListener(INTRO_DONE_EVENT, release);
+        if (fallback) clearTimeout(fallback);
+      };
     },
     { scope: containerRef }
   );
@@ -157,6 +191,9 @@ export default function Hero() {
         <div className="aurora-a absolute top-[10%] left-[20%] h-[500px] w-[600px] rounded-full bg-accent/15 blur-[120px]" />
         <div className="aurora-b absolute bottom-[10%] right-[15%] h-[480px] w-[700px] rounded-full bg-accent-glow/12 blur-[140px]" />
       </div>
+
+      {/* Rising embers — matches the red theme, pure canvas */}
+      <EmberField />
 
       {/* Radial top glow */}
       <div className="pointer-events-none absolute inset-0 bg-radial-fade" />

@@ -36,7 +36,7 @@ export default function Services() {
       className="relative py-32 px-6 lg:px-10 max-w-7xl mx-auto"
     >
       <SectionHeading
-        eyebrow="07 — Services"
+        eyebrow="Chapter 07 — Working Together"
         title="Available for freelance."
         description="I'm taking on a small number of freelance projects alongside my full-time role. If you need something built fast and built right, here's how I can help."
       />
