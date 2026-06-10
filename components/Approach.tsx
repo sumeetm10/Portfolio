@@ -244,7 +244,7 @@ export default function Approach() {
         <div className="absolute top-8 left-6 lg:left-10 z-[200]">
           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent mb-2">
             <span className="h-px w-8 bg-accent" />
-            06 — Approach
+            Chapter 06 — The Difference
           </div>
           <div className="font-display text-xl md:text-2xl font-medium text-ink-muted max-w-xs">
             Working with me vs working with the usual.

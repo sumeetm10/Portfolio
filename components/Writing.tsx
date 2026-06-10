@@ -44,7 +44,7 @@ export default function Writing({ posts }: Props) {
     >
       <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
         <SectionHeading
-          eyebrow="05 — Writing"
+          eyebrow="Chapter 05 — Field Notes"
           title="Notes I've been keeping."
           description="Short essays on real-time systems, career growth, and what I'm learning lately."
         />

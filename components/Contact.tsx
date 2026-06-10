@@ -33,6 +33,15 @@ export default function Contact() {
         stagger: 0.08,
         scrollTrigger: { trigger: ".contact-block", start: "top 70%" },
       });
+      // Film-credits sign-off
+      gsap.from(".contact-credits > *", {
+        opacity: 0,
+        y: 14,
+        duration: 0.7,
+        stagger: 0.18,
+        ease: "expo.out",
+        scrollTrigger: { trigger: ".contact-credits", start: "top 92%" },
+      });
     },
     { scope: ref }
   );
@@ -46,7 +55,7 @@ export default function Contact() {
       <div className="contact-block">
         <div className="contact-eyebrow inline-flex items-center gap-2 mb-8 text-xs font-mono uppercase tracking-widest text-accent">
           <span className="h-px w-8 bg-accent" />
-          08 — Get in Touch
+          Epilogue — Your Move
         </div>
 
         <h2 className="font-display font-medium text-display-xl tracking-tighter leading-[0.95]">
@@ -134,6 +143,19 @@ export default function Contact() {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Film-credits sign-off */}
+        <div className="contact-credits mt-32 text-center">
+          <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-ink-subtle">
+            ✦ &nbsp;The end — of the beginning&nbsp; ✦
+          </div>
+          <p className="mt-4 font-mono text-xs text-ink-subtle">
+            Written, designed &amp; engineered by {siteConfig.name} · Kathmandu, Nepal
+          </p>
+          <p className="mt-1 font-mono text-[10px] text-ink-dim">
+            No template was harmed in the making of this portfolio.
+          </p>
         </div>
       </div>
     </section>
