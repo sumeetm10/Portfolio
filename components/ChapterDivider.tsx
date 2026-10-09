@@ -91,7 +91,7 @@ export default function ChapterDivider({ id, act, numeral, title, sub }: Props) 
         aria-hidden
         className="divider-numeral pointer-events-none select-none absolute inset-0 flex items-center justify-center"
       >
-        <span className="font-display font-bold text-[44vh] leading-none text-white/[0.03]">
+        <span className="font-display font-bold text-[44vh] leading-none text-ink/[0.045]">
           {numeral}
         </span>
       </div>

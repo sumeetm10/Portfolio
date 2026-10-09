@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { navLinks, siteConfig } from "@/lib/data";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 // Routes that have their own header — don't render the global Navbar there.
 const STANDALONE_ROUTES = ["/resume"];
@@ -405,6 +406,7 @@ export default function Navbar() {
 
           {/* CTAs */}
           <div className="nav-cta-group flex items-center gap-2.5 shrink-0">
+            <ThemeToggle />
             <Link
               ref={resumeBtnRef}
               href="/resume"

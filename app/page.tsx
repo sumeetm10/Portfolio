@@ -4,12 +4,14 @@ import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Writing from "@/components/Writing";
+import Intermission from "@/components/Intermission";
 import Approach from "@/components/Approach";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CinematicIntro from "@/components/CinematicIntro";
 import ChapterDivider from "@/components/ChapterDivider";
+import ScrollFilm from "@/components/ScrollFilm";
 import StoryRail from "@/components/StoryRail";
 import { getRecentPosts } from "@/lib/blog";
 
@@ -28,6 +30,10 @@ export default function Home() {
       <StoryRail />
 
       <Hero />
+
+      {/* Scroll-scrubbed motion-graphics prologue film.
+          Pass videoSrc="/video/prologue.mp4" once a generated clip exists. */}
+      <ScrollFilm />
 
       <ChapterDivider
         id="act-1"
@@ -49,6 +55,8 @@ export default function Home() {
       />
       <Projects />
       <Writing posts={recentPosts} />
+
+      <Intermission />
 
       <ChapterDivider
         id="act-3"
