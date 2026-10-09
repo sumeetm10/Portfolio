@@ -2,11 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg: 5 5 7;
-  --ink: 245 245 247;
-  --accent: 239 68 68;
-  --accent-glow: 248 113 113;
+/* =============================================================
+   Theme tokens (RGB channels). Tailwind reads these via
+   rgb(var(--c-*) / <alpha-value>) in tailwind.config.ts.
+   Dark is the default; html.light swaps the palette.
+   .force-dark pins a subtree to dark (cinematic sections).
+   ============================================================= */
+:root,
+.force-dark {
+  --c-bg: 5 5 7;
+  --c-bg-soft: 10 10 15;
+  --c-bg-elevated: 16 16 21;
+  --c-ink: 245 245 247;
+  --c-ink-muted: 161 161 170;
+  --c-ink-subtle: 113 113 122;
+  --c-ink-dim: 82 82 91;
+  --c-accent: 239 68 68;
+  --line-alpha: 0.08;
+  --grad-mid: #fca5a5;
+  --scroll-thumb: #1f1f28;
+  color-scheme: dark;
+}
+
+html.light {
+  --c-bg: 250 250 249;
+  --c-bg-soft: 244 244 245;
+  --c-bg-elevated: 255 255 255;
+  --c-ink: 17 17 19;
+  --c-ink-muted: 72 72 80;
+  --c-ink-subtle: 105 105 115;
+  --c-ink-dim: 161 161 170;
+  --c-accent: 220 38 38; /* deeper red — keeps text-accent legible on white */
+  --line-alpha: 0.1;
+  --grad-mid: #f87171;
+  --scroll-thumb: #d4d4d8;
+  color-scheme: light;
+}
+
+/* .force-dark must also re-apply bg/text since it can sit inside html.light */
+.force-dark {
+  background-color: rgb(var(--c-bg));
+  color: rgb(var(--c-ink));
+}
+
+/* Theme toggle circle-wipe (View Transitions API) — disable the default
+   cross-fade so only the clip-path reveal from ThemeToggle runs. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Smooth palette cross-fade when the toggle is clicked (class added briefly by ThemeToggle) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    fill 0.5s ease !important;
 }
 
 * {
@@ -17,8 +73,8 @@
 
 html,
 body {
-  background: rgb(var(--bg));
-  color: rgb(var(--ink));
+  background: rgb(var(--c-bg));
+  color: rgb(var(--c-ink));
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
@@ -43,7 +99,7 @@ html.lenis body {
 /* Selection */
 ::selection {
   background: rgba(239, 68, 68, 0.4);
-  color: #f5f5f7;
+  color: rgb(var(--c-ink));
 }
 
 /* Custom scrollbar */
@@ -52,10 +108,10 @@ html.lenis body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: rgb(var(--c-bg-soft));
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f1f28;
+  background: var(--scroll-thumb);
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -72,7 +128,7 @@ html.lenis body {
 
 /* Utility — gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #ef4444 0%, #fca5a5 50%, #dc2626 100%);
+  background: linear-gradient(135deg, #ef4444 0%, var(--grad-mid) 50%, #dc2626 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -89,8 +145,8 @@ html.lenis body {
 /* Utility — subtle grid background */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(rgb(var(--c-ink) / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--c-ink) / 0.035) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
@@ -181,4 +237,10 @@ html.lenis body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Custom cursor: difference-blend inverts red to cyan on light backgrounds,
+   so draw it normally in light mode. */
+html.light .ss-cursor {
+  mix-blend-mode: normal;
 }

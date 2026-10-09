@@ -182,7 +182,7 @@ export default function CustomCursor() {
     <div
       ref={cursorRef}
       aria-hidden
-      className="pointer-events-none fixed top-0 left-0 z-[120] h-10 w-10 -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+      className="pointer-events-none fixed top-0 left-0 z-[120] h-10 w-10 -translate-x-1/2 -translate-y-1/2 mix-blend-difference ss-cursor"
       style={{ willChange: "transform" }}
     >
       {/* Slowly-rotating reticle (4 line segments forming a +) */}

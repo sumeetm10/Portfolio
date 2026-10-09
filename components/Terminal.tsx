@@ -11,6 +11,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { TerminalSquare, X } from "lucide-react";
 import { siteConfig, projects, skillGroups, experience } from "@/lib/data";
+import { setTheme } from "./ThemeToggle";
 import { getAllPosts, formatDate } from "@/lib/blog";
 
 // =============================================================
@@ -47,6 +48,7 @@ const HELP_LINES: string[] = [
   "  github        — open GitHub",
   "  linkedin      — open LinkedIn",
   "  email         — compose email",
+  "  theme <l|d>   — switch light / dark mode",
   "  date          — current date",
   "  clear         — clear terminal",
   "  exit          — close terminal",
@@ -306,6 +308,17 @@ export default function Terminal() {
           window.location.href = siteConfig.links.email;
           break;
 
+        case "theme": {
+          const want = arg.startsWith("l") ? "light" : arg.startsWith("d") ? "dark" : null;
+          if (!want) {
+            print("usage: theme light | theme dark", "err");
+          } else {
+            setTheme(want);
+            print(`Theme set to ${want}.`, "ok");
+          }
+          break;
+        }
+
         case "date":
           print(new Date().toString());
           break;
@@ -453,7 +466,7 @@ export default function Terminal() {
       const candidates = [
         "help", "about", "whoami", "projects", "skills", "experience",
         "blog", "resume", "contact", "github", "linkedin", "email",
-        "date", "clear", "exit", "cd", "ls", "pwd", "neofetch",
+        "theme light", "theme dark", "date", "clear", "exit", "cd", "ls", "pwd", "neofetch",
         "sudo hire-me", "cowsay ", "matrix", "vim", "coffee", "hack", "echo ",
       ];
       const lower = input.toLowerCase();

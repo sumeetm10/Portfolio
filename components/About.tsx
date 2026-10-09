@@ -210,7 +210,7 @@ export default function About() {
         aria-hidden
         className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 overflow-hidden select-none"
       >
-        <div className="marquee-track text-[16vw] lg:text-[14vw] font-display font-bold tracking-tighter text-white/[0.025] whitespace-nowrap leading-none">
+        <div className="marquee-track text-[16vw] lg:text-[14vw] font-display font-bold tracking-tighter text-ink/[0.035] whitespace-nowrap leading-none">
           {Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className="inline-block pr-8">
               {marqueeText}

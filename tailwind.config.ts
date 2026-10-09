@@ -9,20 +9,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Theme tokens are CSS variables (RGB channels) so dark/light swap
+        // at runtime and Tailwind opacity modifiers (bg-bg/80) still work.
+        // Values live in app/globals.css (:root = dark, html.light = light).
         bg: {
-          DEFAULT: "#050507",
-          soft: "#0a0a0f",
-          elevated: "#101015",
+          DEFAULT: "rgb(var(--c-bg) / <alpha-value>)",
+          soft: "rgb(var(--c-bg-soft) / <alpha-value>)",
+          elevated: "rgb(var(--c-bg-elevated) / <alpha-value>)",
         },
         ink: {
-          DEFAULT: "#f5f5f7",
-          muted: "#a1a1aa",
-          subtle: "#71717a",
-          dim: "#52525b",
+          DEFAULT: "rgb(var(--c-ink) / <alpha-value>)",
+          muted: "rgb(var(--c-ink-muted) / <alpha-value>)",
+          subtle: "rgb(var(--c-ink-subtle) / <alpha-value>)",
+          dim: "rgb(var(--c-ink-dim) / <alpha-value>)",
         },
-        line: "rgba(255,255,255,0.08)",
+        line: "rgb(var(--c-ink) / var(--line-alpha))",
         accent: {
-          DEFAULT: "#ef4444",
+          DEFAULT: "rgb(var(--c-accent) / <alpha-value>)",
           glow: "#f87171",
           deep: "#dc2626",
         },
@@ -62,7 +65,7 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        "grid-pattern": "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+        "grid-pattern": "linear-gradient(rgb(var(--c-ink) / 0.03) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--c-ink) / 0.03) 1px, transparent 1px)",
         "radial-fade": "radial-gradient(circle at 50% 0%, rgba(239,68,68,0.15), transparent 60%)",
         "accent-gradient": "linear-gradient(135deg, #ef4444 0%, #f87171 50%, #dc2626 100%)",
       },

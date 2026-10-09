@@ -208,7 +208,7 @@ export default function Approach() {
   );
 
   return (
-    <section ref={ref} id="approach" className="relative bg-black isolate">
+    <section ref={ref} id="approach" className="force-dark relative bg-black isolate">
       <div className="pin-wrap relative h-screen overflow-hidden">
         {/* Deep space gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-[#020207] to-black" />
